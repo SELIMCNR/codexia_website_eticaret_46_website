@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ proposal.title }}</title>
+    <style>
+      body {
+        font-family: DejaVu Sans, Arial, sans-serif;
+        font-size: 14px;
+        margin: 20px;
+      }
+      h1,
+      h2,
+      h3 {
+        color: #2c3e50;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f8f9fa;
+      }
+      .text-right {
+        text-align: right;
+      }
+      .summary {
+        margin-top: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>{{ proposal.title }}</h1>
+    <p><strong>Müşteri:</strong> {{ proposal.customer_name }}</p>
+    <p>
+      <strong>Tarih:</strong> {{ proposal.created_at.strftime('%d.%m.%Y %H:%M')
+      }}
+    </p>
+    <p><strong>Durum:</strong> {{ proposal.status }}</p>
+
+    <h2>Kalemler</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>İş Kalemi</th>
+          <th>Birim</th>
+          <th>Adet</th>
+          <th>Birim Fiyat (TL)</th>
+          <th>Ara Toplam (TL)</th>
+          <th>Tür</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+        <tr>
+          <td>{{ item.name }}</td>
+          <td>{{ item.unit or '-' }}</td>
+          <td>{{ "%.2f"|format(item.quantity) }}</td>
+          <td class="text-right">{{ "%.2f"|format(item.unit_price) }}</td>
+          <td class="text-right">{{ "%.2f"|format(item.subtotal) }}</td>
+          <td>{% if item.is_labor %} İşçilik {% else %} Malzeme {% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="summary">
+      <h3>Toplam</h3>
+      <p>
+        <strong>Genel Toplam:</strong> {{ "%.2f"|format(proposal.total_price) }}
+        TL
+      </p>
+    </div>
+  </body>
+</html>

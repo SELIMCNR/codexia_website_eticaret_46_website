@@ -1,0 +1,100 @@
+{% extends "base.html" %} {% block title %}Sepetim - Codexia{% endblock %} {%
+block content %}
+<h2 class="mb-4 text-primary">
+  <i class="fas fa-shopping-cart me-2"></i> Sepetim
+</h2>
+
+{% if cart_items %}
+<table class="table table-bordered table-hover align-middle shadow-sm">
+  <thead class="table-dark">
+    <tr>
+      <th>Ürün</th>
+      <th class="text-center">Adet</th>
+      <th class="text-end">Fiyat (TL)</th>
+      <th class="text-end">İndirim / Kampanya</th>
+      <th class="text-end">İndirimli Fiyat (TL)</th>
+      <th class="text-end">Toplam (TL)</th>
+      <th class="text-center">Kargo</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in cart_items %}
+    <tr>
+      <td>
+        <div class="d-flex align-items-center">
+          <img
+            src="{{ item.image_url or '/static/img/no-image.png' }}"
+            alt="{{ item.name }}"
+            width="60"
+            class="me-2 rounded"
+          />
+          <div>
+            <div>{{ item.name }}</div>
+            {% if item.seller %}
+            <small class="text-muted">Satıcı: {{ item.seller }}</small><br />
+            {% endif %} {% if item.campaign_title %}
+            <small class="badge bg-info">
+              Kampanya: {{ item.campaign_title }} (%{{ item.discount }})
+            </small>
+            {% endif %}
+          </div>
+        </div>
+      </td>
+      <td class="text-center">{{ item.quantity }}</td>
+      <td class="text-end">{{ "%.2f"|format(item.original_price) }}</td>
+      <td class="text-end">
+        {% if item.discount > 0 %}
+        <span class="text-danger fw-bold">%{{ item.discount }}</span>
+        {% else %} - {% endif %}
+      </td>
+      <td class="text-end text-success">{{ "%.2f"|format(item.price) }}</td>
+      <td class="text-end">{{ "%.2f"|format(item.subtotal) }}</td>
+      <td class="text-center">
+        {% if item.shipping_cost == 0 %}
+        <span class="badge bg-success">Kargo Bedava</span>
+        {% else %} {{ "%.2f"|format(item.shipping_cost) }} TL {% endif %}
+      </td>
+      <td class="text-center">
+        <a
+          href="{{ url_for('cart_remove', cid=item.id) }}"
+          class="btn btn-sm btn-danger"
+        >
+          <i class="fas fa-trash"></i>
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="7" class="text-end fw-bold">Ara Toplam:</td>
+      <td class="text-end">{{ "%.2f"|format(subtotal) }} TL</td>
+    </tr>
+    <tr>
+      <td colspan="7" class="text-end fw-bold text-danger">İndirimler:</td>
+      <td class="text-end text-danger">
+        -{{ "%.2f"|format(total_discount) }} TL
+      </td>
+    </tr>
+    <tr>
+      <td colspan="7" class="text-end fw-bold">Kargo Bedeli:</td>
+      <td class="text-end">{{ "%.2f"|format(shipping_total) }} TL</td>
+    </tr>
+    <tr>
+      <td colspan="7" class="text-end fw-bold fs-5">Ödenecek Tutar:</td>
+      <td class="text-end fw-bold text-success fs-5">
+        {{ "%.2f"|format(grand_total) }} TL
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
+<div class="text-end mt-4">
+  <a href="{{ url_for('checkout') }}" class="btn btn-success btn-lg">
+    <i class="fas fa-credit-card me-1"></i> Ödemeyi Tamamla
+  </a>
+</div>
+{% else %}
+<div class="alert alert-info">Sepetinizde ürün bulunmamaktadır.</div>
+{% endif %} {% endblock %}

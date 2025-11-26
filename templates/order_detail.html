@@ -1,0 +1,64 @@
+{% extends "base.html" %} {% block title %}Sipariş Detayı{% endblock %} {% block
+content %}
+<h2 class="mb-4 text-primary">
+  <i class="fas fa-receipt me-2"></i> Sipariş #{{ order.id }}
+</h2>
+
+<p><strong>Tarih:</strong> {{ order.created_at.strftime('%d.%m.%Y %H:%M') }}</p>
+<p><strong>Durum:</strong> {{ order.status }}</p>
+<p><strong>Toplam:</strong> {{ "%.2f"|format(order.total_price) }} TL</p>
+
+<hr />
+<h4>Ürünler</h4>
+<table class="table table-bordered table-hover shadow-sm">
+  <thead class="table-dark">
+    <tr>
+      <th>Ürün</th>
+      <th>Marka</th>
+      <th>SKU</th>
+      <th>Adet</th>
+      <th>Birim Fiyat</th>
+      <th>İndirim / Kampanya</th>
+      <th>Ara Toplam</th>
+      <th>Kargo</th>
+      <th>Garanti</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in order.items %}
+    <tr>
+      <td>
+        <img
+          src="{{ item.product.image_url or url_for('static', filename='img/no-image.png') }}"
+          alt="{{ item.product.name }}"
+          style="max-height: 50px"
+          class="me-2"
+        />
+        {{ item.product.name }}
+      </td>
+      <td>{{ item.product.brand or '-' }}</td>
+      <td>{{ item.product.sku or '-' }}</td>
+      <td>{{ item.quantity }}</td>
+      <td>{{ "%.2f"|format(item.unit_price) }} TL</td>
+      <td>
+        {% if item.product.campaign %}
+        <span class="badge bg-info"
+          >{{ item.product.campaign.title }} (%{{ item.product.campaign.discount
+          }})</span
+        >
+        {% elif item.product.discount and item.product.discount > 0 %}
+        <span class="badge bg-danger">%{{ item.product.discount }}</span>
+        {% else %} - {% endif %}
+      </td>
+      <td>{{ "%.2f"|format(item.subtotal) }} TL</td>
+      <td>{{ item.product.shipping_info or '-' }}</td>
+      <td>{{ item.product.warranty or '-' }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<a href="{{ url_for('order_history') }}" class="btn btn-secondary">
+  <i class="fas fa-arrow-left me-1"></i> Sipariş Geçmişine Dön
+</a>
+{% endblock %}

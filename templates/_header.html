@@ -1,0 +1,103 @@
+<!-- Kampanya Banner -->
+{% if campaign %}
+<div class="bg-warning text-dark text-center py-2 fw-bold">
+  🎉 {{ campaign.title }} - {{ campaign.description }} 🎉
+</div>
+{% endif %}
+
+<!-- Üst navbar: logo + arama + ikonlar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="/">
+      <i class="fas fa-store me-2"></i> Codexia
+    </a>
+
+    <!-- Arama kutusu -->
+    <form
+      class="d-none d-lg-flex mx-auto w-50"
+      action="{{ url_for('search') }}"
+      method="get"
+    >
+      <input
+        class="form-control me-2"
+        type="search"
+        name="q"
+        placeholder="Aradığınız ürün, kategori veya markayı yazınız"
+        aria-label="Arama"
+      />
+      <button class="btn btn-outline-light" type="submit">
+        <i class="fas fa-search"></i>
+      </button>
+    </form>
+
+    <!-- Sağ ikonlar -->
+    <ul class="navbar-nav ms-auto d-flex flex-row gap-3 align-items-center">
+      {% if current_user.is_authenticated %}
+      <li class="nav-item">
+        <span class="nav-link text-light">
+          <i class="fas fa-smile me-1"></i> Merhaba, {{ current_user.fullname }}
+        </span>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('profile') }}">
+          <i class="fas fa-user"></i> Hesabım
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('wishlist') }}">
+          <i class="fas fa-heart"></i> Favorilerim
+        </a>
+      </li>
+      <li class="nav-item position-relative">
+        <a class="nav-link" href="{{ url_for('cart') }}">
+          <i class="fas fa-shopping-cart"></i> Sepetim {% if cart_count > 0 %}
+          <span
+            class="badge bg-danger position-absolute top-0 start-100 translate-middle"
+          >
+            {{ cart_count }}
+          </span>
+          {% endif %}
+        </a>
+      </li>
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('login') }}">Giriş</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('register') }}">Kayıt Ol</a>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+
+<!-- Alt navbar: dinamik kategori menüsü -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+  <div class="container">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#categoryNav"
+      aria-controls="categoryNav"
+      aria-expanded="false"
+      aria-label="Kategori Menüsü"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="categoryNav">
+      <ul class="navbar-nav mx-auto text-center">
+        {% for cat in categories %}
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="{{ url_for('category_detail', cid=cat.id) }}"
+          >
+            {{ cat.name }}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</nav>

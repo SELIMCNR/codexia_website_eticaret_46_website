@@ -1,0 +1,85 @@
+{% extends "base.html" %} {% block title %}Yönetici Paneli - Codexia{% endblock
+%} {% block content %}
+<h2 class="mb-4 text-primary">
+  <i class="fas fa-cogs me-2"></i> Yönetici Paneli
+</h2>
+
+<!-- Genel İstatistikler -->
+<div class="row mb-4">
+  <div class="col-md-3">
+    <div class="card shadow-sm text-center">
+      <div class="card-body">
+        <i class="fas fa-users fa-2x text-secondary mb-2"></i>
+        <h6>Kullanıcılar</h6>
+        <p class="fw-bold">{{ stats.users }}</p>
+        <a
+          href="{{ url_for('admin_users') }}"
+          class="btn btn-outline-primary btn-sm mt-2"
+          >Yönet</a
+        >
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card shadow-sm text-center">
+      <div class="card-body">
+        <i class="fas fa-box fa-2x text-secondary mb-2"></i>
+        <h6>Ürünler</h6>
+        <p class="fw-bold">{{ stats.products }}</p>
+        <a
+          href="{{ url_for('admin_products') }}"
+          class="btn btn-outline-primary btn-sm mt-2"
+          >Yönet</a
+        >
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card shadow-sm text-center">
+      <div class="card-body">
+        <i class="fas fa-receipt fa-2x text-secondary mb-2"></i>
+        <h6>Siparişler</h6>
+        <p class="fw-bold">{{ stats.orders }}</p>
+        <a
+          href="{{ url_for('admin_orders') }}"
+          class="btn btn-outline-primary btn-sm mt-2"
+          >Yönet</a
+        >
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card shadow-sm text-center">
+      <div class="card-body">
+        <i class="fas fa-bullhorn fa-2x text-secondary mb-2"></i>
+        <h6>Kampanyalar</h6>
+        <p class="fw-bold">{{ stats.campaigns }}</p>
+        <a
+          href="{{ url_for('admin_campaigns') }}"
+          class="btn btn-outline-primary btn-sm mt-2"
+          >Yönet</a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Yönetim Kartları -->
+<div class="row mb-5">
+  <div class="col-md-3 mb-4">
+    <div class="card shadow-sm h-100 text-center">
+      <div class="card-body">
+        <i class="fas fa-tags fa-3x text-secondary mb-3"></i>
+        <h5 class="card-title">Kategoriler</h5>
+        <p class="text-muted">Kategorileri yönet</p>
+        <a
+          href="{{ url_for('admin_categories') }}"
+          class="btn btn-outline-primary w-100"
+          >Görüntüle</a
+        >
+      </div>
+    </div>
+  </div>
+  <!-- Diğer yönetim kartları burada kalabilir -->
+</div>
+{% endblock %}

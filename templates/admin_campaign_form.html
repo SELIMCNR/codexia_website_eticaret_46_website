@@ -1,0 +1,65 @@
+{% extends "base.html" %} {% block title %}Kampanya Formu{% endblock %} {% block
+content %}
+<h2 class="mb-4 text-primary">
+  <i class="fas fa-edit me-2"></i> Kampanya {{ campaign and 'Düzenle' or 'Ekle'
+  }}
+</h2>
+
+<form method="POST" enctype="multipart/form-data" class="card shadow-sm p-4">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+  <div class="mb-3">
+    <label class="form-label fw-bold">Başlık</label>
+    <input
+      type="text"
+      name="title"
+      class="form-control"
+      value="{{ campaign.title if campaign else '' }}"
+      required
+    />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label fw-bold">Açıklama</label>
+    <textarea name="description" class="form-control" rows="3">
+{{ campaign.description if campaign else '' }}</textarea
+    >
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label fw-bold">İndirim (%)</label>
+    <input
+      type="number"
+      name="discount"
+      min="0"
+      max="100"
+      class="form-control"
+      value="{{ campaign.discount if campaign else 0 }}"
+    />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label fw-bold">Görsel</label>
+    <input type="file" name="image" class="form-control" accept="image/*" />
+    {% if campaign and campaign.image_url %}
+    <div class="mt-2">
+      <img
+        src="{{ url_for('static', filename=campaign.image_url) }}"
+        alt="Kampanya Görseli"
+        class="img-thumbnail"
+        style="max-height: 150px"
+      />
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="d-flex justify-content-between">
+    <button type="submit" class="btn btn-success">
+      <i class="fas fa-save me-1"></i> Kaydet
+    </button>
+    <a href="{{ url_for('admin_campaigns') }}" class="btn btn-secondary"
+      ><i class="fas fa-times me-1"></i> İptal</a
+    >
+  </div>
+</form>
+{% endblock %}

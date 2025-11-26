@@ -1,0 +1,26 @@
+{% extends "base.html" %} {% block title %}Kategoriler - Codexia{% endblock %}
+{% block content %}
+<h2 class="mb-4 text-primary">
+  <i class="fas fa-th-list me-2"></i> Kategoriler
+</h2>
+
+<div class="row">
+  {% for category in categories %}
+  <div class="col-md-3 mb-4">
+    <div class="card shadow-sm h-100 text-center">
+      <div class="card-body">
+        <i class="fas fa-tags fa-3x text-secondary mb-3"></i>
+        <h5 class="card-title">{{ category.name }}</h5>
+        <p class="text-muted">{{ category.description }}</p>
+        <a
+          href="/category/{{ category.id }}"
+          class="btn btn-outline-primary w-100"
+        >
+          <i class="fas fa-arrow-right"></i> Görüntüle
+        </a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

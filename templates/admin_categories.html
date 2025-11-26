@@ -1,0 +1,72 @@
+{% extends "base.html" %} {% block title %}Kategori Yönetimi - Codexia{%
+endblock %} {% block content %}
+<h2 class="mb-4 text-primary">
+  <i class="fas fa-tags me-2"></i> Kategori Yönetimi
+</h2>
+
+<!-- Kategori Formu (Ekle / Düzenle) -->
+<div class="card mb-4 shadow-sm">
+  <div class="card-body">
+    {% if edit_category %}
+    <h5 class="card-title">Kategori Düzenle (#{{ edit_category.id }})</h5>
+    {% else %}
+    <h5 class="card-title">Yeni Kategori Ekle</h5>
+    {% endif %}
+    <form method="POST">
+      {{ form.hidden_tag() }}
+      <div class="mb-3">
+        {{ form.name.label(class="form-label fw-bold") }} {{
+        form.name(class="form-control") }}
+      </div>
+      <div class="mb-3">
+        {{ form.description.label(class="form-label fw-bold") }} {{
+        form.description(class="form-control", rows=3) }}
+      </div>
+      {{ form.submit(class="btn btn-success") }} {% if edit_category %}
+      <a href="{{ url_for('admin_categories') }}" class="btn btn-secondary ms-2"
+        >İptal</a
+      >
+      {% endif %}
+    </form>
+  </div>
+</div>
+
+<!-- Mevcut Kategoriler -->
+<h4 class="mb-3">Mevcut Kategoriler</h4>
+<table class="table table-bordered table-hover shadow-sm">
+  <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+      <th>Adı</th>
+      <th>Açıklama</th>
+      <th>İşlemler</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for cat in categories %}
+    <tr>
+      <td>{{ cat.id }}</td>
+      <td>{{ cat.name }}</td>
+      <td>{{ cat.description }}</td>
+      <td>
+        <a
+          href="{{ url_for('admin_categories', edit=cat.id) }}"
+          class="btn btn-sm btn-warning"
+          >Düzenle</a
+        >
+        <form method="POST" style="display: inline">
+          <input type="hidden" name="delete_id" value="{{ cat.id }}" />
+          <button type="submit" class="btn btn-sm btn-danger">Sil</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr>
+      <td colspan="4" class="text-center text-muted">
+        Henüz kategori bulunmamaktadır.
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

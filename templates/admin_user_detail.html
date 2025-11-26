@@ -1,0 +1,178 @@
+{% extends "base.html" %} {% block title %}Kullanıcı Detayı - Codexia{% endblock
+%} {% block content %}
+<h2 class="mb-4 text-primary">
+  <i class="fas fa-user me-2"></i> Kullanıcı Detayı
+</h2>
+
+<div class="card shadow-sm mb-4">
+  <div class="card-body">
+    <h5 class="card-title">{{ user.fullname }}</h5>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Telefon:</strong> {{ user.phone or '-' }}</p>
+    <p>
+      <strong>Rol:</strong>
+      {% if user.is_admin() %}
+      <span class="badge bg-danger">Admin</span>
+      {% else %}
+      <span class="badge bg-secondary">Üye</span>
+      {% endif %}
+    </p>
+    <p>
+      <strong>Durum:</strong>
+      {% if user.is_active %}
+      <span class="text-success">Aktif</span>
+      {% else %}
+      <span class="text-danger">Pasif</span>
+      {% endif %}
+    </p>
+    <p>
+      <strong>Doğrulama:</strong>
+      {% if user.is_verified %}
+      <span class="text-success">Doğrulanmış</span>
+      {% else %}
+      <span class="text-warning">Doğrulanmamış</span>
+      {% endif %}
+    </p>
+    <p>
+      <strong>Kayıt Tarihi:</strong> {{ user.created_at.strftime('%d.%m.%Y
+      %H:%M') }}
+    </p>
+    {% if user.last_login %}
+    <p>
+      <strong>Son Giriş:</strong> {{ user.last_login.strftime('%d.%m.%Y %H:%M')
+      }}
+    </p>
+    {% endif %}
+
+    <!-- İşlemler -->
+    <form
+      method="POST"
+      action="{{ url_for('admin_user_toggle', uid=user.id) }}"
+      class="d-inline"
+    >
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+      {% if user.is_active %}
+      <button type="submit" class="btn btn-warning">
+        <i class="fas fa-ban"></i> Pasifleştir
+      </button>
+      {% else %}
+      <button type="submit" class="btn btn-success">
+        <i class="fas fa-check"></i> Aktifleştir
+      </button>
+      {% endif %}
+    </form>
+    <form
+      method="POST"
+      action="{{ url_for('admin_user_delete', uid=user.id) }}"
+      class="d-inline"
+    >
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+      <button type="submit" class="btn btn-danger">
+        <i class="fas fa-trash"></i> Sil
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- İlişkili Veriler -->
+<div class="accordion" id="userAccordion">
+  <!-- Siparişler -->
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingOrders">
+      <button
+        class="accordion-button"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#collapseOrders"
+      >
+        Siparişler
+      </button>
+    </h2>
+    <div
+      id="collapseOrders"
+      class="accordion-collapse collapse show"
+      data-bs-parent="#userAccordion"
+    >
+      <div class="accordion-body">
+        {% if user.orders and user.orders|length > 0 %}
+        <ul class="list-group">
+          {% for order in user.orders %}
+          <li class="list-group-item">
+            <strong>#{{ order.id }}</strong> – {{ order.status }} – {{
+            order.total_price }} TL
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-muted">Henüz sipariş bulunmamaktadır.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Favoriler -->
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingWishlist">
+      <button
+        class="accordion-button collapsed"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#collapseWishlist"
+      >
+        Favoriler
+      </button>
+    </h2>
+    <div
+      id="collapseWishlist"
+      class="accordion-collapse collapse"
+      data-bs-parent="#userAccordion"
+    >
+      <div class="accordion-body">
+        {% if user.wishlist_items and user.wishlist_items|length > 0 %}
+        <ul class="list-group">
+          {% for item in user.wishlist_items %}
+          <li class="list-group-item">{{ item.product.name }}</li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-muted">Henüz favori ürün bulunmamaktadır.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Yorumlar -->
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingReviews">
+      <button
+        class="accordion-button collapsed"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#collapseReviews"
+      >
+        Yorumlar
+      </button>
+    </h2>
+    <div
+      id="collapseReviews"
+      class="accordion-collapse collapse"
+      data-bs-parent="#userAccordion"
+    >
+      <div class="accordion-body">
+        {% if user.reviews and user.reviews|length > 0 %}
+        <ul class="list-group">
+          {% for review in user.reviews %}
+          <li class="list-group-item">
+            <span class="text-warning">★ {{ review.rating }}</span> – {{
+            review.comment }}
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-muted">Henüz yorum bulunmamaktadır.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

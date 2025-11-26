@@ -1,0 +1,26 @@
+{% extends "base.html" %} {% block title %}Ödeme Başarısız - Codexia{% endblock
+%} {% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card shadow-lg border-danger">
+      <div class="card-body text-center p-5">
+        <i class="fas fa-times-circle text-danger fa-4x mb-3"></i>
+        <h2 class="text-danger mb-3">Ödeme Başarısız!</h2>
+        <p class="lead">Üzgünüz, ödemeniz gerçekleştirilemedi.</p>
+        <p>
+          Lütfen kart bilgilerinizi kontrol edin veya farklı bir ödeme yöntemi
+          deneyin.
+        </p>
+        <div class="mt-4">
+          <a href="/checkout" class="btn btn-warning me-2">
+            <i class="fas fa-credit-card me-1"></i> Tekrar Dene
+          </a>
+          <a href="/cart" class="btn btn-outline-secondary">
+            <i class="fas fa-shopping-cart me-1"></i> Sepete Dön
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "base.html" %} {% block title %}Profilim - Codexia{% endblock %} {%
+block content %}
+<h2 class="mb-4 text-primary">
+  <i class="fas fa-user-circle me-2"></i> Profilim
+</h2>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="card shadow-sm">
+      <div class="card-body text-center">
+        <i class="fas fa-user fa-5x text-secondary mb-3"></i>
+        <h5 class="card-title">{{ user.fullname }}</h5>
+        <p class="text-muted">{{ user.email }}</p>
+        <a href="/logout" class="btn btn-outline-danger btn-sm">
+          <i class="fas fa-sign-out-alt"></i> Çıkış Yap
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h4 class="mb-3 text-success">Kişisel Bilgiler</h4>
+        <form method="POST" action="/profile/update">
+          {% if form and form.csrf_token %}{{ form.csrf_token }}{% endif %}
+          <div class="mb-3">
+            <label class="form-label fw-bold">Ad Soyad</label>
+            <input
+              type="text"
+              name="fullname"
+              class="form-control"
+              value="{{ user.fullname }}"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-bold">E-posta</label>
+            <input
+              type="email"
+              name="email"
+              class="form-control"
+              value="{{ user.email }}"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-bold">Telefon</label>
+            <input
+              type="text"
+              name="phone"
+              class="form-control"
+              value="{{ user.phone }}"
+            />
+          </div>
+          <button type="submit" class="btn btn-success">
+            <i class="fas fa-save me-1"></i> Güncelle
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

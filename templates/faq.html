@@ -1,0 +1,74 @@
+{% extends "base.html" %} {% block title %}Sık Sorulan Sorular - Codexia{%
+endblock %} {% block content %}
+<h2 class="mb-4 text-primary">
+  <i class="fas fa-question-circle me-2"></i> Sık Sorulan Sorular
+</h2>
+
+<div class="accordion shadow-sm" id="faqAccordion">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="faq1">
+      <button
+        class="accordion-button"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#collapse1"
+      >
+        Kargo süresi ne kadar?
+      </button>
+    </h2>
+    <div
+      id="collapse1"
+      class="accordion-collapse collapse show"
+      data-bs-parent="#faqAccordion"
+    >
+      <div class="accordion-body">
+        Siparişleriniz genellikle 2-5 iş günü içerisinde kargoya verilir.
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="faq2">
+      <button
+        class="accordion-button collapsed"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#collapse2"
+      >
+        İade koşulları nelerdir?
+      </button>
+    </h2>
+    <div
+      id="collapse2"
+      class="accordion-collapse collapse"
+      data-bs-parent="#faqAccordion"
+    >
+      <div class="accordion-body">
+        Ürünlerinizi 14 gün içerisinde faturası ile birlikte iade edebilirsiniz.
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="faq3">
+      <button
+        class="accordion-button collapsed"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#collapse3"
+      >
+        Ödeme yöntemleri nelerdir?
+      </button>
+    </h2>
+    <div
+      id="collapse3"
+      class="accordion-collapse collapse"
+      data-bs-parent="#faqAccordion"
+    >
+      <div class="accordion-body">
+        Kredi kartı, banka kartı ve kapıda ödeme seçenekleri mevcuttur.
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

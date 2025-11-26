@@ -1,0 +1,198 @@
+{% extends "base.html" %} {% block title %}Kayıt Ol - Codexia{% endblock %} {%
+block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-lg border-0">
+      <div class="card-body p-4">
+        <!-- Karşılama mesajı -->
+        <div class="text-center mb-3">
+          <h5 class="fw-bold">
+            Merhaba, Codexia’ya giriş yap veya hesap oluştur, fırsatları
+            kaçırma!
+          </h5>
+        </div>
+
+        <!-- Sekmeler -->
+        <ul
+          class="nav nav-tabs justify-content-center mb-4"
+          id="authTabs"
+          role="tablist"
+        >
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" href="{{ url_for('login') }}">Giriş Yap</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link active"
+              id="register-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#register"
+              type="button"
+              role="tab"
+            >
+              Üye Ol
+            </button>
+          </li>
+        </ul>
+
+        <!-- Kayıt formu -->
+        <form method="POST" action="/register">
+          {% if form and form.csrf_token %}{{ form.csrf_token }}{% endif %}
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">Ad Soyad</label>
+            <input
+              type="text"
+              name="fullname"
+              class="form-control"
+              placeholder="Adınız Soyadınız"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">E-posta</label>
+            <input
+              type="email"
+              name="email"
+              class="form-control"
+              placeholder="ornek@mail.com"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">Şifre</label>
+            <input
+              type="password"
+              name="password"
+              class="form-control"
+              placeholder="••••••••"
+              required
+            />
+            <small class="text-muted">
+              Şifreniz en az 10 karakter olmalı. 1 büyük harf, 1 küçük harf ve
+              rakam içermelidir.
+            </small>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">Şifre Tekrar</label>
+            <input
+              type="password"
+              name="confirm_password"
+              class="form-control"
+              placeholder="••••••••"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">İlgilendiğiniz Ürün Grubu</label
+            ><br />
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="gender"
+                value="Kadın"
+                required
+              />
+              <label class="form-check-label">Kadın</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="gender"
+                value="Erkek"
+                required
+              />
+              <label class="form-check-label">Erkek</label>
+            </div>
+          </div>
+
+          <div class="mb-3 form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              name="kvkk"
+              required
+            />
+            <label class="form-check-label">
+              Kişisel verilerimin incelenmesi ve paylaşılmasına onay veriyorum.
+            </label>
+          </div>
+
+          <div class="mb-3 form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              name="email_consent"
+            />
+            <label class="form-check-label">
+              Elektronik ileti gönderilmesini kabul ediyorum.
+            </label>
+          </div>
+
+          <div class="mb-3 form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              name="kvkk_read"
+              required
+            />
+            <label class="form-check-label">
+              Kişisel verilerimin işlenmesine yönelik aydınlatma metnini okudum.
+            </label>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">Ben robot değilim</label>
+            <div class="border rounded p-3 text-center bg-light">
+              [ CAPTCHA alanı buraya entegre edilecek ]
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-success w-100">
+            <i class="fas fa-check me-1"></i> Üye Ol
+          </button>
+
+          <div class="mt-3 text-center">
+            <small class="text-muted">
+              Üye Ol’a basarak
+              <a href="/terms" class="text-decoration-underline"
+                >Üyelik Koşulları</a
+              >’nı kabul etmiş olursunuz.
+            </small>
+          </div>
+        </form>
+
+        <!-- Sosyal medya giriş -->
+        <div class="mt-4">
+          <a
+            href="{{ url_for('login_facebook') }}"
+            class="btn btn-outline-primary w-100 mb-2"
+          >
+            <i class="fab fa-facebook me-2"></i> Facebook ile Giriş Yap
+          </a>
+          <a
+            href="{{ url_for('login_google') }}"
+            class="btn btn-outline-danger w-100"
+          >
+            <i class="fab fa-google me-2"></i> Google ile Giriş Yap
+          </a>
+        </div>
+
+        <!-- Alt bilgi -->
+        <div class="mt-4 text-muted small text-center">
+          Üyelik olmadan verilen siparişlerle ilgili olarak bu kanal üzerinden
+          destek sağlanmamaktadır.<br />
+          İlgili siparişleriniz için <strong>0212 331 02 00</strong> numaralı
+          çağrı merkezimizden bize ulaşabilirsiniz.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

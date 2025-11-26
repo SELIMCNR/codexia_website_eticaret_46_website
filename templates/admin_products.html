@@ -1,0 +1,88 @@
+{% extends "base.html" %} {% block title %}Admin - Ürünler{% endblock %} {%
+block content %}
+<h2 class="mb-4 text-primary"><i class="fas fa-box me-2"></i> Ürünler</h2>
+
+<a href="{{ url_for('admin_product_add') }}" class="btn btn-success mb-3">
+  <i class="fas fa-plus"></i> Yeni Ürün
+</a>
+
+<table class="table table-bordered table-hover shadow-sm">
+  <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+      <th>Ad</th>
+      <th>Marka</th>
+      <th>SKU</th>
+      <th>Fiyat</th>
+      <th>İndirim</th>
+      <th>Kampanya</th>
+      <th>Stok</th>
+      <th>Durum</th>
+      <th>Kategori</th>
+      <th>İşlem</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in products %}
+    <tr>
+      <td>{{ p.id }}</td>
+      <td>{{ p.name }}</td>
+      <td>{{ p.brand or '-' }}</td>
+      <td>{{ p.sku or '-' }}</td>
+      <td>
+        {{ "%.2f"|format(p.price) }} TL {% if p.effective_discount > 0 %}
+        <br /><small class="text-success">
+          İndirimli: {{ "%.2f"|format(p.discounted_price) }} TL
+        </small>
+        {% endif %}
+      </td>
+      <td>
+        {% if p.discount > 0 %}
+        <span class="text-danger">{{ p.discount }}%</span>
+        {% else %} - {% endif %}
+      </td>
+      <td>
+        {% if p.campaign %}
+        <span class="badge bg-info">
+          {{ p.campaign.title }} (%{{ p.campaign.discount }})
+        </span>
+        {% else %}
+        <span class="badge bg-secondary">Yok</span>
+        {% endif %}
+      </td>
+      <td>{{ p.stock }}</td>
+      <td>
+        {% if p.is_active %}
+        <span class="badge bg-success">Aktif</span>
+        {% else %}
+        <span class="badge bg-secondary">Pasif</span>
+        {% endif %}
+      </td>
+      <td>{{ p.category.name }}</td>
+      <td>
+        <a
+          href="{{ url_for('admin_product_edit', pid=p.id) }}"
+          class="btn btn-sm btn-primary"
+        >
+          <i class="fas fa-edit"></i> Düzenle
+        </a>
+        <form
+          action="{{ url_for('admin_product_delete', pid=p.id) }}"
+          method="POST"
+          style="display: inline"
+        >
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+          <button
+            type="submit"
+            class="btn btn-sm btn-danger"
+            onclick="return confirm('Silmek istediğinize emin misiniz?')"
+          >
+            <i class="fas fa-trash"></i> Sil
+          </button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "base.html" %} {% block title %}Ödeme - Codexia{% endblock %} {%
+block content %}
+<h2 class="mb-4 text-success"><i class="fas fa-credit-card me-2"></i> Ödeme</h2>
+
+<form
+  method="POST"
+  action="{{ url_for('checkout') }}"
+  class="card shadow-lg p-4"
+>
+  {{ form.hidden_tag() }}
+
+  <!-- Fatura Bilgileri -->
+  <h4 class="text-primary mb-3">Fatura Bilgileri</h4>
+  <div class="mb-3">
+    {{ form.fullname.label(class="form-label fw-bold") }} {{
+    form.fullname(class="form-control") }}
+  </div>
+  <div class="mb-3">
+    {{ form.address.label(class="form-label fw-bold") }} {{
+    form.address(class="form-control", rows=3) }}
+  </div>
+  <div class="mb-3">
+    {{ form.phone.label(class="form-label fw-bold") }} {{
+    form.phone(class="form-control") }}
+  </div>
+
+  <!-- Kart Bilgileri -->
+  <h4 class="text-primary mb-3 mt-4">Kart Bilgileri</h4>
+  <div class="mb-3">
+    {{ form.card_number.label(class="form-label fw-bold") }} {{
+    form.card_number(class="form-control", placeholder="XXXX XXXX XXXX XXXX") }}
+  </div>
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      {{ form.expiry.label(class="form-label fw-bold") }} {{
+      form.expiry(class="form-control", placeholder="AA/YY") }}
+    </div>
+    <div class="col-md-6 mb-3">
+      {{ form.cvv.label(class="form-label fw-bold") }} {{
+      form.cvv(class="form-control", placeholder="XXX") }}
+    </div>
+  </div>
+
+  <!-- Ödeme Özeti -->
+  <div class="mt-4 border-top pt-3">
+    <h4 class="text-primary mb-3">Ödeme Özeti</h4>
+    <table class="table">
+      <tr>
+        <td class="text-end fw-bold">Ara Toplam:</td>
+        <td class="text-end">{{ "%.2f"|format(subtotal) }} TL</td>
+      </tr>
+      <tr>
+        <td class="text-end fw-bold text-danger">İndirimler:</td>
+        <td class="text-end text-danger">
+          -{{ "%.2f"|format(total_discount) }} TL
+        </td>
+      </tr>
+      <tr>
+        <td class="text-end fw-bold">Kargo Bedeli:</td>
+        <td class="text-end">{{ "%.2f"|format(shipping_total) }} TL</td>
+      </tr>
+      <tr>
+        <td class="text-end fw-bold fs-5">Ödenecek Tutar:</td>
+        <td class="text-end fw-bold text-success fs-5">
+          {{ "%.2f"|format(grand_total) }} TL
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  {{ form.submit(class="btn btn-success btn-lg w-100") }}
+</form>
+{% endblock %}

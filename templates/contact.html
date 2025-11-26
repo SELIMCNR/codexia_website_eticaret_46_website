@@ -1,0 +1,44 @@
+{% extends "base.html" %} {% block title %}İletişim - Codexia{% endblock %} {%
+block content %}
+<h2 class="mb-4 text-primary"><i class="fas fa-envelope me-2"></i> İletişim</h2>
+
+<div class="row">
+  <div class="col-md-6">
+    <form method="POST" action="/contact" class="card shadow-sm p-4">
+      {% if form and form.csrf_token %}{{ form.csrf_token }}{% endif %}
+      <div class="mb-3">
+        <label class="form-label fw-bold">Ad Soyad</label>
+        <input type="text" name="fullname" class="form-control" required />
+      </div>
+      <div class="mb-3">
+        <label class="form-label fw-bold">E-posta</label>
+        <input type="email" name="email" class="form-control" required />
+      </div>
+      <div class="mb-3">
+        <label class="form-label fw-bold">Mesajınız</label>
+        <textarea
+          name="message"
+          class="form-control"
+          rows="5"
+          required
+        ></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">
+        <i class="fas fa-paper-plane me-1"></i> Gönder
+      </button>
+    </form>
+  </div>
+  <div class="col-md-6">
+    <div class="card shadow-sm p-4">
+      <h4 class="mb-3 text-success">İletişim Bilgilerimiz</h4>
+      <p><i class="fas fa-map-marker-alt me-2"></i> Adres: [Firma Adresi]</p>
+      <p><i class="fas fa-phone me-2"></i> Telefon: [Telefon No]</p>
+      <p><i class="fas fa-envelope me-2"></i> E-posta: info@codexia.com</p>
+      <p>
+        <i class="fas fa-clock me-2"></i> Çalışma Saatleri: Hafta içi 09:00 -
+        18:00
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

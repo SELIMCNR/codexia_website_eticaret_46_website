@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Sipariş Düzenle{% endblock %}
+{% block content %}
+<h2 class="mb-4 text-primary"><i class="fas fa-edit me-2"></i> Sipariş Düzenle</h2>
+
+<form method="POST" class="card shadow-sm p-4">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+  <div class="mb-3">
+    <label class="form-label fw-bold">Durum</label>
+    <select name="status" class="form-select">
+      <option value="Hazırlanıyor" {% if order.status == "Hazırlanıyor" %}selected{% endif %}>Hazırlanıyor</option>
+      <option value="Kargoda" {% if order.status == "Kargoda" %}selected{% endif %}>Kargoda</option>
+      <option value="Tamamlandı" {% if order.status == "Tamamlandı" %}selected{% endif %}>Tamamlandı</option>
+      <option value="İptal" {% if order.status == "İptal" %}selected{% endif %}>İptal</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label fw-bold">Toplam Fiyat</label>
+    <input type="number" step="0.01" name="total_price" class="form-control"
+           value="{{ order.total_price }}">
+  </div>
+
+  <div class="d-flex justify-content-between">
+    <button type="submit" class="btn btn-success">
+      <i class="fas fa-save me-1"></i> Kaydet
+    </button>
+    <a href="{{ url_for('admin_orders') }}" class="btn btn-secondary">
+      <i class="fas fa-times me-1"></i> İptal
+    </a>
+  </div>
+</form>
+{% endblock %}

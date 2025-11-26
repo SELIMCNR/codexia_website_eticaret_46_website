@@ -1,0 +1,62 @@
+{% extends "base.html" %} {% block title %}Kampanya Ürünleri{% endblock %} {%
+block content %}
+<h2 class="mb-4 text-primary">
+  <i class="fas fa-tags me-2"></i> {{ campaign.title }} Kampanyası Ürünleri
+</h2>
+
+<form method="POST" class="card shadow-sm p-4">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+  <div class="mb-3">
+    <label class="form-label fw-bold">Ürün Seç</label>
+    <select name="product_id" class="form-select">
+      {% for p in all_products %}
+      <option value="{{ p.id }}">{{ p.name }} ({{ p.price }} TL)</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-success">
+    <i class="fas fa-plus"></i> Kampanyaya Ekle
+  </button>
+</form>
+
+<hr />
+
+<h4 class="mt-4">Kampanyadaki Ürünler</h4>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Ad</th>
+      <th>Fiyat</th>
+      <th>İşlem</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in campaign.products %}
+    <tr>
+      <td>{{ p.id }}</td>
+      <td>{{ p.name }}</td>
+      <td>{{ p.price }} TL</td>
+      <td>
+        <form
+          method="POST"
+          action="{{ url_for('admin_campaign_remove_product', cid=campaign.id, pid=p.id) }}"
+          style="display: inline"
+        >
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+          <button type="submit" class="btn btn-sm btn-danger">
+            <i class="fas fa-trash"></i> Çıkar
+          </button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<a href="{{ url_for('admin_campaigns') }}" class="btn btn-secondary mt-3">
+  <i class="fas fa-arrow-left"></i> Kampanyalara Dön
+</a>
+{% endblock %}

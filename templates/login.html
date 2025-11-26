@@ -1,0 +1,95 @@
+{% extends "base.html" %} {% block title %}Giriş Yap - Codexia{% endblock %} {%
+block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-lg border-0">
+      <div class="card-body p-4">
+        <!-- Karşılama mesajı -->
+        <div class="text-center mb-3">
+          <h5 class="fw-bold">
+            Merhaba, Codexia’ya giriş yap veya hesap oluştur, fırsatları
+            kaçırma!
+          </h5>
+        </div>
+
+        <!-- Sekmeler -->
+        <ul
+          class="nav nav-tabs justify-content-center mb-4"
+          id="authTabs"
+          role="tablist"
+        >
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link active"
+              id="login-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#login"
+              type="button"
+              role="tab"
+            >
+              Giriş Yap
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" href="/register">Üye Ol</a>
+          </li>
+        </ul>
+
+        <!-- Giriş formu -->
+        <form method="POST" action="/login">
+          {% if form and form.csrf_token %}{{ form.csrf_token }}{% endif %}
+          <div class="mb-3">
+            <label class="form-label fw-bold">E-posta</label>
+            <input
+              type="email"
+              name="email"
+              class="form-control"
+              placeholder="ornek@mail.com"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-bold">Şifre</label>
+            <input
+              type="password"
+              name="password"
+              class="form-control"
+              placeholder="••••••••"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary w-100">
+            <i class="fas fa-lock me-1"></i> Giriş Yap
+          </button>
+        </form>
+
+        <!-- Şifremi unuttum -->
+        <div class="mt-3 text-center">
+          <a href="/forget_password" class="text-muted">Şifremi Unuttum</a>
+        </div>
+
+        <!-- Sosyal medya giriş -->
+        <div class="mt-4">
+          <button class="btn btn-outline-primary w-100 mb-2">
+            <i class="fab fa-facebook me-2"></i> Facebook ile Giriş Yap
+          </button>
+          <a
+            href="{{ url_for('login_google') }}"
+            class="btn btn-outline-danger w-100"
+          >
+            <i class="fab fa-google me-2"></i> Google ile Giriş Yap
+          </a>
+        </div>
+
+        <!-- Alt bilgi -->
+        <div class="mt-4 text-muted small text-center">
+          Üyelik olmadan verilen siparişlerle ilgili olarak bu kanal üzerinden
+          destek sağlanmamaktadır.<br />
+          İlgili siparişleriniz için <strong>0212 331 02 00</strong> numaralı
+          çağrı merkezimizden bize ulaşabilirsiniz.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

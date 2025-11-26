@@ -1,0 +1,37 @@
+{% extends "base.html" %} {% block title %}Hakkımızda - Codexia{% endblock %} {%
+block content %}
+<h2 class="mb-4 text-success">
+  <i class="fas fa-info-circle me-2"></i> Hakkımızda
+</h2>
+
+<div class="card shadow-sm p-4">
+  <p>
+    Codexia, kullanıcılarına en kaliteli ürünleri en uygun fiyatlarla sunmayı
+    hedefleyen modern bir e‑ticaret platformudur. 2025 yılında Kahramanmaraş’ta
+    kurulmuş olup, kısa sürede Türkiye genelinde güvenilir alışverişin adresi
+    haline gelmiştir.
+  </p>
+  <p>
+    Müşteri memnuniyetini ön planda tutarak, hızlı kargo, kolay iade ve 7/24
+    destek hizmetleri ile alışveriş deneyiminizi sorunsuz hale getiriyoruz.
+  </p>
+  <p>
+    Vizyonumuz: Dijital dünyada kullanıcı dostu, güvenilir ve yenilikçi bir
+    alışveriş deneyimi sunmak.
+  </p>
+  <p>
+    Misyonumuz: Gerçek ihtiyaçlara uygun, sürdürülebilir ve profesyonel
+    çözümlerle e‑ticaret sektöründe fark yaratmak.
+  </p>
+</div>
+
+<div class="mt-4 text-center">
+  <img
+    src="{{ url_for('static', filename='team.jpg') }}"
+    alt="Ekibimiz"
+    class="img-fluid rounded shadow-sm"
+    style="max-width: 600px"
+  />
+  <p class="mt-2 text-muted">Codexia ekibi olarak sizin için buradayız.</p>
+</div>
+{% endblock %}
